@@ -1,8 +1,8 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { DifficultyChart } from '../screens/app/state/home/difficultyChart';
-import { ProgressRing } from '../screens/app/state/home/progressRing';
-import { TrainingSet } from '../screens/app/state/home/trainingSet';
+import { DifficultyChart } from '../../../screens/app/state/home/difficultyChart';
+import { ProgressRing } from '../../../screens/app/state/home/progressRing';
+import { TrainingSet } from '../../../screens/app/state/home/trainingSet';
 
 const Tab = createMaterialTopTabNavigator();
 

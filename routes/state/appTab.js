@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeStack } from './homeStack';
-import { ProfileScreen } from '../screens/app/state/profile';
-import { CalendarScreen } from '../screens/app/state/calendar';
+import { HomeStack } from './home/homeStack';
+import { ProfileStack } from './profile/profileStack';
+import { CalendarStack } from './calendar/calendarStack';
+import { CalendarScreen } from '../../screens/app/state/calendar';
 import { SimpleLineIcons } from '@expo/vector-icons';
+
 const Tab = createBottomTabNavigator();
 
-const AppStack = () => {
+const AppTab = () => {
 	return (
 		<NavigationContainer>
 			<Tab.Navigator
@@ -34,12 +35,12 @@ const AppStack = () => {
 					inactiveTintColor: 'gray'
 				}}
 			>
-				<Tab.Screen name="Profile" component={ProfileScreen} />
+				<Tab.Screen name="Profile" component={ProfileStack} />
 				<Tab.Screen name="Home" component={HomeStack} />
-				<Tab.Screen name="Calendar" component={CalendarScreen} />
+				<Tab.Screen name="Calendar" component={CalendarStack} />
 			</Tab.Navigator>
 		</NavigationContainer>
 	);
 };
 
-export default AppStack;
+export default AppTab;

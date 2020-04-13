@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 const AuthLoading = ({navigation}) => {
 	setTimeout(() => {

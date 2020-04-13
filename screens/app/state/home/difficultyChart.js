@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { BarChart, Grid, YAxis, XAxis } from 'react-native-svg-charts';
 import { GlobalStyles } from '../../../../style/globalStyle';
-import { GoButton } from '../../../../shared/customButtons';
-import { Avatar, Card, Divider, ListItem } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
+import { Divider } from 'react-native-elements';
 import _ from 'lodash';
 
 export const DifficultyChart = () => {
@@ -77,7 +75,3 @@ export const DifficultyChart = () => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    
-});

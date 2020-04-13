@@ -1,9 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import AuthLoading from '../screens/register/authLoading';
-import LoginForm from '../screens/register/logIn';
+import AuthLoading from '../../screens/register/authLoading';
+import LoginForm from '../../screens/register/logIn';
 
 const Stack = createStackNavigator();
 

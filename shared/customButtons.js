@@ -1,38 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
-export const NavButton = ({ text, onPress, style, visible }) => {
-    return (
-        <View style={style}>
-            <TouchableOpacity onPress={onPress}>
-                <View style={styles.button} />
-            </TouchableOpacity>
-        </View>
-    );
-};
-
-export const EmptySpace = ({}) => {
-    return (
-        <View style={{ opacity: 0 }}>
-            <View style={styles.button} />
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    button: {
-        flex: 1,
-        width: 0,
-        height: 0,
-        backgroundColor: 'transparent',
-        borderStyle: 'solid',
-        borderRightWidth: 60,
-        borderTopWidth: 30,
-        borderRightColor: 'transparent',
-        borderTopColor: '#333333'
-    }
-});
-
 export const GoButton = ({ text, onPress, style, visible }) => {
     return (
         <View style={ style }>

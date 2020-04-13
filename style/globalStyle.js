@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-export const GlobalStyles = StyleSheet.create({
+export const GlobalStyles = {
 	container: {
-		backgroundColor: '#FFFFF0',
+		backgroundColor: '#E6E6E6',
 		flex: 1
 	},
 	title: {
@@ -45,4 +45,4 @@ export const GlobalStyles = StyleSheet.create({
 	flipShape: {
 		transform: [{ rotate: '180deg' }]
 	}
-});
+};

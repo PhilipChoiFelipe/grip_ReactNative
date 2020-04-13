@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import {
     StyleSheet,
-    Button,
-    TextInput,
     View,
     Text,
     FlatList,
     TouchableOpacity,
-    TouchableHighlight
 } from 'react-native';
-import { NavButton, EmptySpace, GoButton } from '../../shared/customButtons';
-import { Avatar, Card, Divider } from 'react-native-elements';
+import { GoButton } from '../../shared/customButtons';
+import { Card, Divider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalStyles } from '../../style/globalStyle'
 const color = {
@@ -47,18 +44,6 @@ export const ChooseProgram = ({ navigation }) => {
     const [program, setProgram] = useState('');
     return (
         <View style={GlobalStyles.container}>
-            <View style={GlobalStyles.title_Container}>
-                <Text style={GlobalStyles.title}>
-                    PullUp Program <br />recommendation
-                </Text>
-                <Avatar
-                    rounded
-                    title="MS"
-                    size="medium"
-					titleStyle={{fontSize: 22}}
-                    overlayContainerStyle={{ backgroundColor: '#4D3636' }}
-                />
-            </View>
             <View style={GlobalStyles.body_Container}>
                 <FlatList
                     extraData={program}
@@ -101,11 +86,7 @@ export const ChooseProgram = ({ navigation }) => {
             <Divider
                 style={{ marginTop: 5, backgroundColor: 'rgba(51, 51, 51, 0.75)', marginHorizontal: '5%' }}
             />
-            <View style={styles.buttons}>
-                <NavButton text="<-" style={styles.navButton} onPress={() => navigation.navigate('CheckMax')} />
-                <GoButton text="Go" onPress={() => navigation.navigate('CheckMax')} />
-				<EmptySpace/>
-            </View>
+            <GoButton text="Go" onPress={() => {navigation.navigate('CheckMax'); console.log(program)}} style={{marginVertical: '5%'}}/>
         </View>
     );
 };
@@ -122,15 +103,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
         // textAlign:'center'
     },
-	buttons: {
-		flex: 1,
-        flexDirection:'row',
-		alignItems:'center',
-		justifyContent:'center',
-		marginHorizontal: '20%',
-	},
-	navButton: {
-		transform: [{ rotate: '180deg' }],
-		marginTop: 20
-	}
 });

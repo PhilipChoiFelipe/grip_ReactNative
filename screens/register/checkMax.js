@@ -1,16 +1,11 @@
 import React from 'react';
-import { StyleSheet, Button, TextInput, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { GoButton, NumberButton } from '../../shared/customButtons';
 import { GlobalStyles } from '../../style/globalStyle'
 
 export const CheckMax = ({ navigation }) => {
 	return (
 		<View style={GlobalStyles.container}>
-			<View style={GlobalStyles.title_Container}>
-				<Text style={GlobalStyles.title}>
-					How many FULL <br />Pullups can you do?
-				</Text>
-			</View>
 			<View style={GlobalStyles.body_Container}>
 				<NumberButton />
 				<Text style={styles.number}>8</Text>
@@ -18,7 +13,7 @@ export const CheckMax = ({ navigation }) => {
 			</View>
 			<GoButton
 				text="Go"
-				style={styles.goButton}
+				style={{marginVertical: '5%'}}
 				onPress={() => {
 					navigation.navigate('ChooseProgram');
 				}}

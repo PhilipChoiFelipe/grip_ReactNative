@@ -1,12 +1,8 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
-import { Avatar, Card, Divider, ListItem } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
+import { Text, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import { GlobalStyles } from '../../../../style/globalStyle';
-import { GoButton } from '../../../../shared/customButtons';
-import { ToggleView } from '../../../../shared/toggleView';
-import { ProgressRing } from './progressRing';
-import { DifficultyChart } from './difficultyChart';
+
 
 const exercises = [
     {
@@ -46,7 +42,7 @@ export const TrainingSet = () => {
                         title={exercise.name}
                         titleStyle={{ fontFamily: 'IBMPlexSans-light', fontSize: 15 }}
                         subtitle={exercise.desc}
-                        containerStyle={{ backgroundColor: '#FFFFF0' }}
+                        containerStyle={{ backgroundColor: '#E6E6E6' }}
                         bottomDivider
                     />
                 ))}

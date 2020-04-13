@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Button, TextInput, View, Text } from 'react-native';
+import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { Formik } from 'formik';
 import { RegisterButton } from '../../shared/customButtons';
 import * as yup from 'yup';
