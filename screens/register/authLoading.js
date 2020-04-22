@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
+import { GlobalStyles } from '../../style/globalStyle';
+import { useSelector } from 'react-redux';
 
-const AuthLoading = ({navigation}) => {
-	setTimeout(() => {
-		navigation.navigate('LoginForm');
-	}, 5000);
+export const AuthLoading = ({ navigation }) => {
+	const { checkLoading, authLoading, auth, user} = useSelector(state => ({
+		authLoading: state.loading['auth/AUTOLOGIN'],
+		checkLoading: state.loading['state/CHECK'],
+        user: state.state.user.user,
+        auth: state.auth.auth,
+
+    }));
+	if(!authLoading && !checkLoading){
+		if(user && auth){
+			navigation.navigate('App');
+		}else{
+			navigation.navigate('AuthForm');
+		}	
+	}
 	return(
 		<View style={styles.titleContainer}>
 			<Text style={styles.title}>
 				GRIP
 			</Text>
+			<Text style={{...GlobalStyles.home_state, bottom: 25, textAlign: 'center', letterSpacing: 5}}>Pull yourself against gravity</Text>
 		</View>
 	);
 }
@@ -19,7 +33,7 @@ const styles = StyleSheet.create({
 	titleContainer: {
 		flex: 1,
 		justifyContent: 'center',
-		backgroundColor: '#FFFFF0'
+		backgroundColor: '#E6E6E6'
 	},
 	title: {
 		textAlign: 'center',
@@ -29,5 +43,3 @@ const styles = StyleSheet.create({
 		color: '#333333',
 	}
 });
-
-export default AuthLoading;

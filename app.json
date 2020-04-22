@@ -7,6 +7,7 @@
       "android",
       "web"
     ],
+    "entryPoint": "./root.js",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,6 +24,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "packagerOpts": {
+      "port": 59978
     }
   }
 }

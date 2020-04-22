@@ -62,16 +62,20 @@ const numberstyles = StyleSheet.create({
     }
 });
 
-export const RegisterButton = ({ text, onPress }) => {
+export const RegisterButton = ({ text, onPress, children }) => {
     return (
         <View
             style={{
-                alignItems: 'center'
+				flexDirection: 'row',
+                justifyContent: 'center',
+				// flex: 1
+					alignItems: 'stretch'
             }}
         >
             <TouchableOpacity onPress={onPress}>
                 <View style={regstyles.button}>
                     <Text style={regstyles.buttonText}>{text}</Text>
+					{children}
                 </View>
             </TouchableOpacity>
         </View>
@@ -83,10 +87,7 @@ const regstyles = StyleSheet.create({
         borderRadius: 8,
         paddingVertical: 13,
         paddingHorizontal: 20,
-        // paddingVertical: 14,
-        // paddingHorizontal: 10,
-        // alignSelf: 'flex-start',
-        backgroundColor: '#333333'
+        backgroundColor: '#333333',
     },
     buttonText: {
         color: 'white',
@@ -95,4 +96,33 @@ const regstyles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'IBMPlexSans-light'
     }
+});
+
+export const GoogleButton = ({ text, onPress, children }) => {
+    return (
+        <View
+            style={{
+				flexDirection: 'row',
+                justifyContent: 'center',
+				// flex: 1
+					alignItems: 'stretch'
+            }}
+        >
+            <TouchableOpacity onPress={onPress}>
+                <View style={googlestyles.button}>
+					{children}
+                </View>
+            </TouchableOpacity>
+        </View>
+    );
+};
+
+const googlestyles = StyleSheet.create({
+    button: {
+        borderRadius: 8,
+        paddingVertical: 7,
+        paddingHorizontal: 30,
+        backgroundColor: '#333333',
+    },
+
 });

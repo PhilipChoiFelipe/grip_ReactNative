@@ -7,7 +7,7 @@ import { Text, View } from 'react-native';
 
 const Stack = createStackNavigator();
 
-export const CalendarStack = () => {
+const calendarStack = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -22,3 +22,4 @@ export const CalendarStack = () => {
     );
 };
 
+export const CalendarStack = React.memo(calendarStack);

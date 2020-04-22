@@ -7,17 +7,22 @@ import { CalendarStack } from './calendar/calendarStack';
 import { CalendarScreen } from '../../screens/app/state/calendar';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
+//redux
+import { useSelector, shallowEqual } from 'react-redux';
+
+
 const Tab = createBottomTabNavigator();
 
-const AppTab = () => {
+const AppTab = ({ user }) => {
+	const { showTab } = useSelector(state => ({
+        showTab: state.state.showTab,
+    }), shallowEqual);
 	return (
-		<NavigationContainer>
 			<Tab.Navigator
 				initialRouteName="Home"
 				screenOptions={({ route }) => ({
 					tabBarIcon: ({ focused, color, size }) => {
 						let iconName;
-
 						if (route.name === 'Home') {
 							iconName = 'fire'
 						} else if (route.name === 'Profile') {
@@ -35,11 +40,10 @@ const AppTab = () => {
 					inactiveTintColor: 'gray'
 				}}
 			>
-				<Tab.Screen name="Profile" component={ProfileStack} />
-				<Tab.Screen name="Home" component={HomeStack} />
+				<Tab.Screen name="Profile" component={ProfileStack} params="hello"/>
+				<Tab.Screen name="Home" component={HomeStack}  options={{tabBarVisible: showTab}} />
 				<Tab.Screen name="Calendar" component={CalendarStack} />
 			</Tab.Navigator>
-		</NavigationContainer>
 	);
 };
 

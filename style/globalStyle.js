@@ -37,12 +37,18 @@ export const GlobalStyles = {
         padding: 5
     },
     home_state: {
-        lineHeight: 8,
+        lineHeight: 15,
         fontFamily: 'Jockey-One',
         color: '#333333',
         fontSize: 15
     },
 	flipShape: {
 		transform: [{ rotate: '180deg' }]
-	}
+	},
+	errorText: {
+        color: 'crimson',
+        fontWeight: 'bold',
+        marginTop: 10,
+        textAlign: 'center'
+    }
 };

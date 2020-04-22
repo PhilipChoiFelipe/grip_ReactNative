@@ -9,12 +9,13 @@ export const HeaderStyle = {
         <Avatar
             rounded
             title="MS"
-            size={50}
-            titleStyle={{ fontSize: 20 }}
+            size={35}
+            titleStyle={{ fontSize: 15 }}
             overlayContainerStyle={{ backgroundColor: '#4D3636' }}
         />
     ),
-    headerRightContainerStyle: { marginRight: '5%' }
+    headerRightContainerStyle: { marginRight: '5%' },
+	headerTitleAlign: 'left'
 };
 
 export const CustomHeader = ({title}) => {

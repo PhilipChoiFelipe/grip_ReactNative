@@ -1,39 +1,70 @@
-import * as React from 'react';
+import React from 'react';
+
+//Style
 import { Text, View, StyleSheet } from 'react-native';
 import { BarChart, Grid, YAxis, XAxis } from 'react-native-svg-charts';
 import { GlobalStyles } from '../../../../style/globalStyle';
 import { Divider } from 'react-native-elements';
 import _ from 'lodash';
 
+import { LoadingScreen } from '../loading';
+//redux
+import { useSelector, shallowEqual } from 'react-redux';
+
 export const DifficultyChart = () => {
+    let { user, loading } = useSelector(
+        state => ({
+            user: state.state.user.user
+            // loading: state.loading['state/CHECK']
+        }),
+        shallowEqual
+    );
+    console.log(user.summary);
+    // const date = new Date(user.summary[0].finishedDate);
+    // let formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}`;
+    const sortedDates = _.orderBy(user.summary, ['finishedDate'], ['desc']);
+    let completedDates = _.map(sortedDates, sortedDate => {
+        let date = new Date(sortedDate.finishedDate);
+        return {
+            difficulty: sortedDate.difficulty,
+            date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}`,
+            unixDate: sortedDate.finishedDate
+        };
+    });
+    completedDates = _.chunk(completedDates, 5)[0];
+    completedDates = _.orderBy(completedDates, ['unixDate'], ['asc']);
+
+    console.log('SORTED', completedDates);
+
+    // console.log(formatDate);
     const fill = 'rgb(134, 65, 244)';
     const contentInset = { top: 20, bottom: 20 };
-    const completedDates = [
-        {
-            difficulty: 5,
-            date: '20/03/29'
-        },
-        {
-            difficulty: 5,
-            date: '20/04/01'
-        },
-        {
-            difficulty: 3,
-            date: '20/04/02'
-        },
-        {
-            difficulty: 2,
-            date: '20/04/03'
-        },
-        {
-            difficulty: 1,
-            date: '20/04/05'
-        }
-    ];
+    // const completedDates = [
+    //     {
+    //         difficulty: 5,
+    //         date: '20/03/29'
+    //     },
+    //     {
+    //         difficulty: 5,
+    //         date: '20/04/01'
+    //     },
+    //     {
+    //         difficulty: 3,
+    //         date: '20/04/02'
+    //     },
+    //     {
+    //         difficulty: 2,
+    //         date: '20/04/03'
+    //     },
+    //     {
+    //         difficulty: 1,
+    //         date: '20/04/05'
+    //     }
+    // ];
     const data = _.map(completedDates, 'difficulty');
     return (
         <View style={GlobalStyles.container}>
-			<Divider/>
+            <Divider />
             <View style={{ flex: 9, marginHorizontal: '3%', justifyContent: 'center' }}>
                 <Text style={GlobalStyles.home_description}>Weekly Difficulty Analysis</Text>
                 <View style={{ flexDirection: 'row', height: 350, marginTop: '5%' }}>
@@ -75,3 +106,5 @@ export const DifficultyChart = () => {
         </View>
     );
 };
+
+// export const DifficultyChart = React.memo(difficultyChart);
