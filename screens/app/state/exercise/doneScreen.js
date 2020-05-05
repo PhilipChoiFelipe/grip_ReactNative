@@ -1,19 +1,24 @@
 import React from 'react';
 
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { GlobalStyles } from '../../../../style/globalStyle';
 import { GoButton } from '../../../../shared/customButtons';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { setReset } from '../../../../modules/appState';
 
 export const DoneScreen = ({ navigation }) => {
-    let dispatch = useDispatch();
+	let dispatch = useDispatch();
+    const handleNavigation = () => {
+		navigation.navigate('SummaryScreen');
+		dispatch(setReset());
+	}
     return (
-        <View style={GlobalStyles.container}>
+        <SafeAreaView style={GlobalStyles.container}>
             <View style={GlobalStyles.body_Container}>
-                <Text style={GlobalStyles.title}>THIS IS DONE SCREEN</Text>
+                <Text style={GlobalStyles.title}>WELL DONE!!</Text>
             </View>
-            <GoButton text="DONE" onPress={() => {navigation.navigate('SummaryScreen')}} style={{ margin: '10%' }}/>
-        </View>
+            <GoButton text="DONE" onPress={handleNavigation} style={{ margin: '10%' }}/>
+        </SafeAreaView>
     );
 };

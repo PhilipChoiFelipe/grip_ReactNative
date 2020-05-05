@@ -5,7 +5,6 @@ import * as authAPI from '../lib/api/auth';
 
 import produce from 'immer';
 
-const MODAL = 'auth/MODAL';
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
@@ -16,7 +15,6 @@ const [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAILURE] = createRequestActionTypes('auth/
 
 
 //normal redux actions
-export const toggleModal = createAction(MODAL);
 export const changeField = createAction(CHANGE_FIELD, ({ form, key, value }) => ({
     form,
     key,
@@ -57,12 +55,13 @@ export const initialState = {
         email: '',
         password: ''
     },
-	modal: false,
-	userToken: null,
-	auth: false,
-	authError: null,
-	checkError: null,
-	logoutError: null,
+	auth: {
+		userToken: null,
+		auth: false,
+		authError: null,
+		autoError: null,
+		logoutError: null,
+	}
 };
 
 const auth = handleActions(
@@ -75,51 +74,67 @@ const auth = handleActions(
             ...state,
             [form]: initialState[form]
         }),
-		[MODAL]: (state, action) => ({
-			...state,
-			modal: !state.modal
-		}),
 		[LOGIN_SUCCESS]: (state, { payload: userToken }) => ({
 			...state,
-			userToken: userToken,
-			auth: true,
-			authError: null
+			auth: {
+				...state.auth,
+				userToken: userToken.jwtToken,
+				auth: true,
+				authError: null,
+				autoError: null,
+			}
 		}),
 		[LOGIN_FAILURE]: (state, { payload: error }) => ({
 			...state,
-			userToken: null,
-			auth: false,
-			authError: error
+			auth: {
+				...state.auth,
+				userToken: null,
+				auth: false,
+				authError: error
+			}
 		}),
 		[SIGNUP_SUCCESS]: (state, { payload: auth }) => ({
 			...state,
-			auth: auth,
-			authError: null
+			auth: {
+				...state.auth,
+				auth: true,
+				authError: null
+			}
 		}),
 		[SIGNUP_FAILURE]: (state, { payload: error  }) => ({
 			...state,
-			auth: null,
-			authError: error
+			auth: {
+				...state.auth,	
+				auth: false,
+				authError: error
+			}
 		}),
 		[LOGOUT_SUCCESS]: (state, action) => ({
 			...state,
-			auth: false,
-			userToken: null,
-			logoutError: null
+			auth: {
+				...state.auth,
+				auth: false,
+				userToken: null,
+				logoutError: null
+			}
 		}),
-		[LOGIN_FAILURE]: (state, {payload: error}) => ({
+		[AUTOLOGIN_SUCCESS]: (state, {payload: jwtToken}) => ({
 			...state,
-			logoutError: error
+			auth: {
+				...state.auth,
+				autoError: null,
+				userToken: jwtToken,
+				auth: true
+			}
 		}),
-		[AUTOLOGIN_SUCCESS]: (state, action) => ({
+		[AUTOLOGIN_FAILURE]: (state, {payload: error}) => ({
 			...state,
-			userToken: action.payload,
-			auth: true
-		}),
-		[AUTOLOGIN_FAILURE]: (state, action) => ({
-			...state,
-			userToken: null,
-			auth: false
+			auth: {
+				...state.auth,
+				userToken: null,
+				auth: false,
+				autoError: error
+			}
 		})
     },
     initialState

@@ -3,8 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeStack } from './home/homeStack';
 import { ProfileStack } from './profile/profileStack';
-import { CalendarStack } from './calendar/calendarStack';
-import { CalendarScreen } from '../../screens/app/state/calendar';
+import { RecordStack } from './record/recordStack';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
 //redux
@@ -15,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 const AppTab = ({ user }) => {
 	const { showTab } = useSelector(state => ({
-        showTab: state.state.showTab,
+        showTab: state.appState.toggle.showTab,
     }), shallowEqual);
 	return (
 			<Tab.Navigator
@@ -33,16 +32,17 @@ const AppTab = ({ user }) => {
 
 						// You can return any component that you like here!
 						return <SimpleLineIcons name={iconName} size={size} color={color} />;
-					}
+					},
 				})}
 				tabBarOptions={{
 					activeTintColor: 'tomato',
-					inactiveTintColor: 'gray'
+					inactiveTintColor: 'gray',
+					tabStyle: {backgroundColor: '#333333'}
 				}}
 			>
-				<Tab.Screen name="Profile" component={ProfileStack} params="hello"/>
-				<Tab.Screen name="Home" component={HomeStack}  options={{tabBarVisible: showTab}} />
-				<Tab.Screen name="Calendar" component={CalendarStack} />
+				<Tab.Screen name="Profile" component={ProfileStack} options={{tabBarVisible: showTab}}/>
+				<Tab.Screen name="Home" component={HomeStack} options={{tabBarVisible: showTab}} />
+				<Tab.Screen name="History" component={RecordStack} options={{tabBarVisible: showTab}} />
 			</Tab.Navigator>
 	);
 };

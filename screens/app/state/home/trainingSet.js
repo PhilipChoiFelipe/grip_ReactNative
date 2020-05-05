@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { GlobalStyles } from '../../../../style/globalStyle';
 
@@ -15,24 +15,25 @@ const exercises = [
 ];
 
 export const TrainingSet = () => {
-    let { program, loading } = useSelector(
+    const { program, loading } = useSelector(
         state => ({
-            program: state.state.program.program,
-            loading: state.loading['state/PROGRAM']
+            program: state.userState.program.program,
+            loading: state.loading['userState/PROGRAM']
         }),
         shallowEqual
     );
     if (loading) {
         return <LoadingScreen />;
     } else {
-        console.log(program);
+		console.log('%c TRAINING_SET', 'background: black; color: white');
+		console.table(program.set);
         return (
-            <View style={GlobalStyles.container}>
+            <SafeAreaView style={GlobalStyles.container}>
                 <View
                     style={{
                         ...GlobalStyles.body_container,
                         flex: 4,
-                        marginTop: '5%',
+                        marginTop: '10%',
                         marginHorizontal: '5%'
                     }}
                     hide
@@ -56,7 +57,7 @@ export const TrainingSet = () => {
                         />
                     ))}
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 };

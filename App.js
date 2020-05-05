@@ -15,17 +15,26 @@ const Stack = createStackNavigator();
 //redux
 import { getFont } from './modules/font';
 import { autoLogin } from './modules/auth';
-import { check } from './modules/state';
+import { check } from './modules/userState';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 const App = () => {
     let dispatch = useDispatch();
-    const { fontsLoaded, fontsError, user, userToken, auth, authLoading } = useSelector(state => ({
-        user: state.state.user.user,
-        userToken: state.auth.userToken,
-        auth: state.auth.auth,
+    const { fontsLoaded, fontsError, user, checkError, userToken, auth, authLoading, autoError } = useSelector(state => ({
+		//state
+        user: state.userState.user.user,
+		checkError: state.userState.user.checkError,
+		
+		//auth
+        userToken: state.auth.auth.userToken,
+        auth: state.auth.auth.auth,
+		autoError: state.auth.auth.autoError,
+		
+		//font
         fontsLoaded: state.font.fontsLoaded,
         fontsError: state.font.fontsError,
+		
+		//loading
         authLoading: state.loading['auth/AUTOLOGIN']
     }), shallowEqual);
 
@@ -43,7 +52,6 @@ const App = () => {
     useEffect(
         () => {
             if (!auth) {
-                console.log('autoLogin');
                 dispatch(autoLogin());
             }
         },
@@ -53,20 +61,22 @@ const App = () => {
     //if user is authenticated, get user's updated data
     useEffect(
         () => {
-            if (userToken && auth) {
-                console.log('EFFECT TOKEN', userToken);
-                console.log('check mounted');
+            if ((userToken && auth) && !autoError) {
+				console.log('%c USER_TOKEN:', 'background: blue; color: white', userToken);
                 dispatch(check({ userToken }));
             }
+			// else{
+			// 	console.log('%c AUTO_ERROR', 'background: red; color: white', autoError);
+			// }
         },
-        [dispatch, userToken]
+        [dispatch, userToken, auth, autoError]
     );
 
-    useEffect(() => {
-        if (authLoading) {
-            console.log('AUTO LOADING', authLoading);
-        }
-    });
+    // useEffect(() => {
+    //     if (authLoading) {
+    //         console.log('AUTO LOADING', authLoading);
+    //     }
+    // });
 	// if(!auth && authLoading){
 	// 	return <AuthLoading/>;
 	// }
@@ -90,7 +100,7 @@ const App = () => {
                     component={AuthLoading}
                     options={{ headerShown: false, gestureEnabled: false }}
                 />
-                {(auth == true) && (user != null) ? (
+                {((auth == true) && (user != null)) && !checkError ? (
                     <Stack.Screen
                         name="App"
                         component={AppTab}

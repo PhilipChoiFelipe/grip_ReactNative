@@ -19,28 +19,30 @@ import { BackgroundColors } from '../../../assets/colors/backgroundColors';
 
 //redux
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { tabToggle } from '../../../modules/state';
+import { tabToggle, drawerToggle } from '../../../modules/appState';
 
 const Stack = createStackNavigator();
 
-export const HomeStack = ({navigation}) => {
-	let colorLength = BackgroundColors.length;
-	let backgroundColor = BackgroundColors[Math.floor(Math.random() * (colorLength - 1))];
-	let dispatch = useDispatch();
+export const HomeStack = ({ navigation }) => {
+    let colorLength = BackgroundColors.length;
+    let backgroundColor = BackgroundColors[Math.floor(Math.random() * (colorLength - 1))];
+    let dispatch = useDispatch();
     const { user, program } = useSelector(
         state => ({
-            user: state.state.user.user,
-            program: state.state.program.program
+            user: state.userState.user.user,
+            program: state.userState.program.program
         }),
         shallowEqual
     );
-	const handleExit = () => {
-		dispatch(tabToggle());
-		navigation.navigate("HomeTab");
-	};
+    const handleExit = () => {
+        dispatch(tabToggle());
+        navigation.navigate('HomeTab');
+    };
+    const openDrawer = () => {
+        dispatch(drawerToggle());
+    }; 
     return (
-        <Stack.Navigator>
-			 
+        <Stack.Navigator>	
             <Stack.Screen
                 name="HomeTab"
                 component={HomeTab}
@@ -57,69 +59,83 @@ export const HomeStack = ({navigation}) => {
             <Stack.Screen
                 name="WarmupScreen"
                 component={WarmupScreen}
-                initialParams={{ backgroundColor }}
+                initialParams={{ program }}
                 options={{
                     headerTitle: props => <ExerciseHeader {...props} title="WarmUp" />,
                     headerLeft: null,
                     gestureEnabled: false,
                     ...HeaderStyle,
-					headerStyle: { height: 75, backgroundColor: backgroundColor },
-					headerRight: () => (<MaterialCommunityIcons name="exit-run" color='#333333' size={40}  onPress={handleExit}/>),
+                    headerStyle: { height: 75, backgroundColor: backgroundColor },
+                    headerRight: () => (
+                        <MaterialCommunityIcons
+                            name="format-list-bulleted"
+                            color="#333333"
+                            size={40}
+                            onPress={openDrawer}
+                        />
+                    )
                 }}
             />
             <Stack.Screen
                 name="SetScreen"
                 component={SetScreen}
-                initialParams={{ program, backgroundColor }}
+                initialParams={{ program }}
                 options={{
                     headerTitle: props => <ExerciseHeader {...props} title="GRIP AND PULL" />,
-                    
+
                     headerLeft: null,
                     gestureEnabled: false,
                     ...HeaderStyle,
-					headerStyle: { height: 75, backgroundColor: backgroundColor },
-					headerRight: () => (<MaterialCommunityIcons name="exit-run" color='#333333' size={40}  onPress={handleExit}/>),
+                    headerStyle: { height: 75, backgroundColor: backgroundColor },
+                    headerRight: () => (
+                        <MaterialCommunityIcons
+                            name="format-list-bulleted"
+                            color="#333333"
+                            size={40}
+                            onPress={openDrawer}
+                        />
+                    )
                 }}
             />
             <Stack.Screen
                 name="RestScreen"
                 component={RestScreen}
-				initialParams={{ backgroundColor }}
+                initialParams={{ program }}
                 options={{
                     headerTitle: props => <ExerciseHeader {...props} title="Rest" />,
                     headerLeft: null,
                     gestureEnabled: false,
                     ...HeaderStyle,
-					headerStyle: { height: 75, backgroundColor: backgroundColor },
-					headerRight: () => (<MaterialCommunityIcons name="exit-run" color='#333333' size={40}  onPress={handleExit}/>),
+                    headerStyle: { height: 75, backgroundColor: backgroundColor }
                 }}
             />
-			<Stack.Screen
+            <Stack.Screen
                 name="DoneScreen"
                 component={DoneScreen}
-				initialParams={{ backgroundColor }}
+                initialParams={{ backgroundColor }}
                 options={{
                     headerTitle: props => <CustomHeader {...props} title="GOOD JOB" />,
                     headerLeft: null,
                     gestureEnabled: false,
                     ...HeaderStyle,
-					headerStyle: { height: 75, backgroundColor: backgroundColor },
+                    headerStyle: { height: 75, backgroundColor: backgroundColor }
                 }}
             />
-           <Stack.Screen
+            <Stack.Screen
                 name="SummaryScreen"
-				initialParams={{user, backgroundColor}}
+                initialParams={{ user, program }}
                 component={SummaryScreen}
                 options={{
-					headerShown: false
+                    headerShown: false
                 }}
             />
             <Stack.Screen
                 name="GraphScreen"
                 component={GraphScreen}
+                initialParams={{ backgroundColor, user }}
                 options={{
                     headerShown: false,
-					headerStyle: { height: 75, backgroundColor: backgroundColor }
+                    headerStyle: { height: 75, backgroundColor: backgroundColor }
                 }}
             />
         </Stack.Navigator>

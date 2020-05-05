@@ -1,21 +1,64 @@
-import React from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import React, { useEffect } from 'react';
+//design
+import { SafeAreaView, StyleSheet, View, Text, Alert } from 'react-native';
 import { GoButton, NumberButton } from '../../../../shared/customButtons';
 import { GlobalStyles } from '../../../../style/globalStyle';
 //redux
-import { useDispatch, useSelector } from 'react-redux';
-import { updateMax, increase, decrease } from '../../../../modules/state';
-import * as yup from 'yup'; // for everything
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { updateMax, increase, decrease } from '../../../../modules/userState';
+import { tabToggle } from '../../../../modules/appState';
 
 const checkMax = ({ navigation, route }) => {
     const dispatch = useDispatch();
-    const { updateMaxError, maxPullups } = useSelector(({ state }) => ({
-        updateMaxError: state.updateMax.updateMaxError,
-        maxPullups: state.updateMax.maxPullups
-    }));
+    const { updateMaxError, maxPullups, stay } = useSelector(({ userState }) => ({
+        updateMaxError: userState.updateMax.updateMaxError,
+        maxPullups: userState.updateMax.maxPullups,
+		stay: userState.updateMax.stay
+    }), shallowEqual);
+	
+	const handleSumbit = (e) => {
+		e.preventDefault();
+		console.log("%c CHECK_MAX_COUNT", 'background: black; color: white', maxPullups);
+		dispatch(updateMax({ maxPullups }))
 
+	}
+	
+	const createAlert = () =>  Alert.alert(
+      "Don't fit current program",
+      "Change Program?",
+      [
+        {
+          text: "Stay",
+          onPress: () => {
+			  dispatch(tabToggle());
+			  navigation.navigate("ProfileScreen")
+		  },
+          style: "cancel"
+        },
+        { text: "Change", onPress: () => navigation.navigate("ChooseProgram") }
+      ],
+      { cancelable: false }
+    );
+	
+	//wether if user should continue on his program or not 
+	useEffect(() => {
+		if(stay == false){
+			createAlert();
+		}else if(stay == true){
+			dispatch(tabToggle());
+			navigation.navigate('ProfileScreen');
+		}
+	}, [stay])
+	
+	//handle http error
+	useEffect(() => {
+		if(updateMaxError){
+			console.log('UPDATE_MAX_ERROR', 'background: red; color: white', updateMaxError);
+		}
+	},[updateMaxError]);
+	
     return (
-        <View style={GlobalStyles.container}>
+        <SafeAreaView style={GlobalStyles.container}>
             <View style={GlobalStyles.body_Container}>
                 <NumberButton
                     onPress={() => {
@@ -47,12 +90,9 @@ const checkMax = ({ navigation, route }) => {
 						]
 					);
                 }}*/
-				onPress={() =>{ 
-					dispatch(updateMax({ maxPullups }));
-					navigation.navigate('ChooseProgram');
-				}}
+				onPress={handleSumbit}
             />
-        </View>
+        </SafeAreaView>
     );
 };
 

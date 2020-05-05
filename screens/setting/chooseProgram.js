@@ -16,14 +16,14 @@ const color = {
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { chooseProgram } from '../../modules/state';
+import { chooseProgram } from '../../modules/userState';
 
 export const ChooseProgram = ({ navigation }) => {
     const dispatch = useDispatch();
-    const { chooseError, programs, stay } = useSelector(({ state }) => ({
-        chooseError: state.chooseProgram.chooseError,
-        programs: state.updateMax.programs,
-        stay: state.updateMax.stay
+    const { chooseError, programs, stay } = useSelector(({ userState }) => ({
+        chooseError: userState.chooseProgram.chooseError,
+        programs: userState.updateMax.programs,
+        stay: userState.updateMax.stay
     }));
     const [program, setProgram] = useState('');
 	console.log(programs);

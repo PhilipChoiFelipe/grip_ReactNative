@@ -6,18 +6,23 @@ import font, { fontsSaga } from './font';
 import loading from './loading';
 
 import auth, { authSaga } from './auth';
-import state, { stateSaga } from './state';
+import userState, { userStateSaga } from './userState';
+import appState from './appState';
+import reflection, {reflectionSaga} from './reflection';
+
 
 
 const rootReducer = combineReducers({
 	font,
 	loading,
 	auth,
-	state
+	userState,
+	reflection,
+	appState
 })
 
 export function* rootSaga() {
-	yield all([fontsSaga(), authSaga(), stateSaga()]);
+	yield all([fontsSaga(), authSaga(), userStateSaga(), reflectionSaga()]);
 }
 
 export default rootReducer;

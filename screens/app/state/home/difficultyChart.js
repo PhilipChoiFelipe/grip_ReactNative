@@ -1,71 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //Style
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { BarChart, Grid, YAxis, XAxis } from 'react-native-svg-charts';
 import { GlobalStyles } from '../../../../style/globalStyle';
 import { Divider } from 'react-native-elements';
 import _ from 'lodash';
 
-import { LoadingScreen } from '../loading';
 //redux
 import { useSelector, shallowEqual } from 'react-redux';
 
 export const DifficultyChart = () => {
-    let { user, loading } = useSelector(
+    const { reflections } = useSelector(
         state => ({
-            user: state.state.user.user
+            reflections: state.reflection.reflections
             // loading: state.loading['state/CHECK']
         }),
         shallowEqual
     );
-    console.log(user.summary);
     // const date = new Date(user.summary[0].finishedDate);
     // let formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}`;
-    const sortedDates = _.orderBy(user.summary, ['finishedDate'], ['desc']);
+    const sortedDates = _.orderBy(reflections, ['finishedDate'], ['desc']);
     let completedDates = _.map(sortedDates, sortedDate => {
         let date = new Date(sortedDate.finishedDate);
+		let year = `${date.getFullYear()}`.slice(2)
         return {
             difficulty: sortedDate.difficulty,
-            date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}`,
+            date: `${date.getMonth() + 1}/${date.getDate()}`,
             unixDate: sortedDate.finishedDate
         };
     });
-    completedDates = _.chunk(completedDates, 5)[0];
+    completedDates = _.chunk(completedDates, 10)[0];
     completedDates = _.orderBy(completedDates, ['unixDate'], ['asc']);
 
-    console.log('SORTED', completedDates);
-
-    // console.log(formatDate);
     const fill = 'rgb(134, 65, 244)';
     const contentInset = { top: 20, bottom: 20 };
-    // const completedDates = [
-    //     {
-    //         difficulty: 5,
-    //         date: '20/03/29'
-    //     },
-    //     {
-    //         difficulty: 5,
-    //         date: '20/04/01'
-    //     },
-    //     {
-    //         difficulty: 3,
-    //         date: '20/04/02'
-    //     },
-    //     {
-    //         difficulty: 2,
-    //         date: '20/04/03'
-    //     },
-    //     {
-    //         difficulty: 1,
-    //         date: '20/04/05'
-    //     }
-    // ];
     const data = _.map(completedDates, 'difficulty');
+	
+	useEffect(() => {
+		console.log('%c DIFFICULTY_CHART_REFLECTIONS:', 'background: black; color: white');
+		console.table(reflections);
+	}, [reflections]);
+	
     return (
-        <View style={GlobalStyles.container}>
+        <SafeAreaView style={GlobalStyles.container}>
             <Divider />
-            <View style={{ flex: 9, marginHorizontal: '3%', justifyContent: 'center' }}>
+            <View style={{ flex: 9, marginHorizontal: '3%', marginTop: '10%' }}>
                 <Text style={GlobalStyles.home_description}>Weekly Difficulty Analysis</Text>
                 <View style={{ flexDirection: 'row', height: 350, marginTop: '5%' }}>
                     <YAxis
@@ -103,7 +83,7 @@ export const DifficultyChart = () => {
                     </View>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

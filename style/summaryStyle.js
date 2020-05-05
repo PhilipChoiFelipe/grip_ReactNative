@@ -13,7 +13,7 @@ export const SummaryStyles = {
 		fontSize: 40,
 		color: '#333333',
 		fontFamily: 'Jockey-One',
-		lineHeight: 50
+		lineHeight: 50,
 	},
 	subtitle: {
 		fontSize: 20,
@@ -35,4 +35,10 @@ export const SummaryStyles = {
 		fontSize: 25,
 		color: 'rgba(51, 51, 51, 0.75)'
 	},
+	block: {
+        flex: 1,
+        marginHorizontal: '5%',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(51, 51, 51, 0.75)'
+    },
 };

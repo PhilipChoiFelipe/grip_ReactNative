@@ -4,13 +4,13 @@ import { GoButton, NumberButton } from '../../shared/customButtons';
 import { GlobalStyles } from '../../style/globalStyle';
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateMax, increase, decrease } from '../../modules/state';
+import { updateMax, increase, decrease } from '../../modules/userState';
 
 const checkMax = ({ navigation, route }) => {
     const dispatch = useDispatch();
-    const { updateMaxError, maxPullups } = useSelector(({ state }) => ({
-        updateMaxError: state.updateMax.updateMaxError,
-        maxPullups: state.updateMax.maxPullups
+    const { updateMaxError, maxPullups } = useSelector(({ userState }) => ({
+        updateMaxError: userState.updateMax.updateMaxError,
+        maxPullups: userState.updateMax.maxPullups
     }));
 
     return (

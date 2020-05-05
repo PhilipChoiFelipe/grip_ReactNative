@@ -14,6 +14,7 @@ import { GlobalStyles } from '../../style/globalStyle';
 import { RegisterButton, GoogleButton } from '../../shared/customButtons';
 import { AntDesign } from '@expo/vector-icons';
 import { CustomTextInput } from '../../shared/customTextInput';
+import { CreateAlert } from '../../shared/alert';
 
 //form
 import * as yup from 'yup';
@@ -29,8 +30,8 @@ export const LoginForm = ({ openModal }) => {
     const { email, password, auth, authError } = useSelector(({ auth }) => ({
         email: auth.login.email,
         password: auth.login.password,
-        auth: auth.auth,
-        authError: auth.authError
+        auth: auth.auth.auth,
+        authError: auth.auth.authError
     }));
 
     const onChange = useCallback((name, value) => {
@@ -56,11 +57,12 @@ export const LoginForm = ({ openModal }) => {
     useEffect(
         () => {
             if (authError) {
-                console.log('AUTH ERROR:', authError);
+				CreateAlert("Login Error", authError);
+                console.log('%c AUTH ERROR:', 'background: red; color: white', authError);
                 return;
             }
             if (auth) {
-                console.log('LOGIN SUCCESS:', auth);
+                console.log('%c LOGIN SUCCESS:', 'background: blue; color: white', auth);
             }
         },
         [auth, authError]

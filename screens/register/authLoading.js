@@ -8,8 +8,8 @@ export const AuthLoading = ({ navigation }) => {
 	const { checkLoading, authLoading, auth, user} = useSelector(state => ({
 		authLoading: state.loading['auth/AUTOLOGIN'],
 		checkLoading: state.loading['state/CHECK'],
-        user: state.state.user.user,
-        auth: state.auth.auth,
+        user: state.userState.user.user,
+        auth: state.auth.auth.auth,
 
     }));
 	if(!authLoading && !checkLoading){

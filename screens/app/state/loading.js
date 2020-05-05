@@ -1,11 +1,18 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, {useEffect} from 'react';
+import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import { GlobalStyles } from '../../../style/globalStyle';
 import { useSelector } from 'react-redux';
 
-export const LoadingScreen = ( ) => {
+export const LoadingScreen = ({ route, navigation }) => {
+	// const { loading } = route.params;
+	// useEffect(() => {
+	// 	if(loading == false){
+	// 	navigation.navigate('HomeTab');
+	// }
+	// }, [loading]);
+	
     return (
-        <View style={styles.titleContainer}>
+        <SafeAreaView style={styles.titleContainer}>
             <Text style={styles.title}>GRIP</Text>
             <Text
                 style={{
@@ -17,7 +24,7 @@ export const LoadingScreen = ( ) => {
             >
                 Pull yourself against gravity
             </Text>
-        </View>
+        </SafeAreaView>
     );
 };
 

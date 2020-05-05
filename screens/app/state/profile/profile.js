@@ -1,119 +1,117 @@
-import React, {useState} from 'react';
-import {
-    Text,
-    View,
-    StyleSheet,
-    Button,
-    RefreshControl,
-    ScrollView,
-    SafeAreaView
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+
+//design
+import { SafeAreaView, Text, View, StyleSheet, Button } from 'react-native';
 import { Divider } from 'react-native-elements';
 import { GlobalStyles } from '../../../../style/globalStyle';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import { RegisterButton } from '../../../../shared/customButtons';
 
 //redux
 import { logout } from '../../../../modules/auth';
-import { check } from '../../../../modules/state';
-import { useDispatch, useSelector } from 'react-redux';
+import { check, getWeeks, resetMax } from '../../../../modules/userState';
+import { tabToggle } from '../../../../modules/appState';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 const profileScreen = ({ navigation, route }) => {
     const [refreshing, setRefreshing] = useState(false);
 
-    const onRefresh = React.useCallback(
-        () => {
-			location.reload();
-            // setRefreshing(true);
-			// this.forceUpdate();
-            // setRefreshing(false);
-        },
-        [refreshing]
-    );
-
-    const handleLogout = () => {
+    const handleLogout = e => {
+		e.preventDefault();
         dispatch(logout());
     };
-
+	
+	const handleMax = e => {
+		e.preventDefault();
+		dispatch(tabToggle());
+		navigation.navigate('CheckMax');
+		dispatch(resetMax());
+	}
+	
+	const handleWeek = e => {
+		e.preventDefault();
+		dispatch(getWeeks());
+		dispatch(tabToggle());
+        navigation.navigate('ChangeWeek');
+	}
+	
     let dispatch = useDispatch();
     let { user } = useSelector(state => ({
-        user: state.state.user.user
-    }));
+        user: state.userState.user.user
+    }), shallowEqual);
     let state = user.state;
-    // const { state } = user;
-    if (state == null) {
-        console.log('PROFILE STATE', state);
-        navigation.navigate('CheckMax');
-    }
+	
+	useEffect(() => {
+		console.log("%c PROFILE_USER_STATE", 'background: black; color: white');
+		console.table(user.state)
+	});
+	
+
+	
     return (
-        <SafeAreaView style={{ ...GlobalStyles.container, justifyContent: 'flex-start' }}>
-            <ScrollView
-                contentContainerStyle={{ ...GlobalStyles.container }}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <View style={styles.profile_block}>
-                    <View style={styles.toRow}>
-                        <View>
-                            <Text style={GlobalStyles.home_state}>Current Program:</Text>
-                            <Text style={GlobalStyles.title}>
-                                {state ? state.program : 'Choose Program'}
-                            </Text>
-                        </View>
-                        <SimpleLineIcons
-                            name="settings"
-                            size={30}
-                            onPress={() => {
-                                navigation.navigate('ChooseProgram');
-                            }}
-                        />
+        <SafeAreaView style={GlobalStyles.container}>
+            <View style={styles.profile_block}>
+                <View style={styles.toRow}>
+                    <View>
+                        <Text style={GlobalStyles.home_state}>Current Program:</Text>
+                        <Text style={GlobalStyles.title}>
+                            {state ? state.program : 'Choose Program'}
+                        </Text>
                     </View>
+                    <SimpleLineIcons
+                        name="settings"
+                        size={30}
+                        onPress={handleWeek}
+                    />
                 </View>
-                <Divider />
-                <View style={styles.profile_block}>
-                    <View style={styles.toRow}>
-                        <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20 }}>
-                            Your Full Pullups:
-                        </Text>
-                        <Text
-                            style={{
-                                ...GlobalStyles.title,
-                                fontSize: 90,
-                                marginLeft: '15%',
-                                lineHeight: 100
-                            }}
-                        >
-                            {state ? state.maxPullups : 0}
-                        </Text>
-                        <SimpleLineIcons
-                            name="settings"
-                            size={30}
-                            onPress={() => {
-                                navigation.navigate('CheckMax');
-                            }}
-                        />
-                    </View>
+            </View>
+            <Divider />
+            <View style={styles.profile_block}>
+                <View style={styles.toRow}>
+                    <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20 }}>
+                        Your Full Pullups:
+                    </Text>
+                    <Text
+                        style={{
+                            ...GlobalStyles.title,
+                            fontSize: 90,
+                            marginLeft: '20%',
+                            lineHeight: 100
+                        }}
+                    >
+                        {state ? state.maxPullups : 0}
+                    </Text>
+                    <SimpleLineIcons
+                        name="settings"
+                        size={30}
+                        onPress={handleMax}
+                    />
                 </View>
-                <Divider />
-                <View style={styles.profile_block}>
-                    <View style={styles.toRow}>
-                        <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20 }}>
-                            Total Pullup Counts:
-                        </Text>
-                        <Text
-                            style={{
-                                ...GlobalStyles.title,
-                                fontSize: 90,
-                                marginLeft: '15%',
-                                lineHeight: 100
-                            }}
-                        >
-                            {state ? state.totalPullups : 0}
-                        </Text>
-                        <SimpleLineIcons name="settings" size={30} />
-                    </View>
+            </View>
+            <Divider />
+            <View style={styles.profile_block}>
+                <View style={styles.toRow}>
+                    <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20 }}>
+                        Total Pullup Counts:
+                    </Text>
+                    <Text
+                        style={{
+                            ...GlobalStyles.title,
+                            fontSize: 90,
+                            marginLeft: '15%',
+                            lineHeight: 100
+                        }}
+                    >
+                        {state ? state.totalPullups : 0}
+                    </Text>
+                    <SimpleLineIcons name="settings" size={30} />
                 </View>
-                <Divider />
-                <Button title="logout" onPress={handleLogout} />
-            </ScrollView>
+            </View>
+            <Divider />
+			<View style = {{flex: 1, alignItems: 'center',justifyContent: 'center'}}>
+				<RegisterButton text="logout" onPress={handleLogout} />
+			</View>
+            
         </SafeAreaView>
     );
 };
