@@ -55,10 +55,7 @@ export const ChangeWeek = ({ navigation }) => {
                     }}
                 />
             </View>
-			<View style={{flex: 1, justifyContent: 'center', backgroundColor: '#B3B3B3'}}>
-				<GoButton text="Done" onPress={onSubmit}/>
-			</View>
-			
+			<GoButton text="Save" onPress={onSubmit} style={{ bottom: 10, position: 'absolute', alignSelf:'center' }} />
         </SafeAreaView>
     );
 };

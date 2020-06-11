@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 //design
-import { SafeAreaView, Text, View, StyleSheet, Button } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 import { Divider } from 'react-native-elements';
 import { GlobalStyles } from '../../../../style/globalStyle';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -10,108 +10,130 @@ import { RegisterButton } from '../../../../shared/customButtons';
 //redux
 import { logout } from '../../../../modules/auth';
 import { check, getWeeks, resetMax } from '../../../../modules/userState';
-import { tabToggle } from '../../../../modules/appState';
+import { tabToggle, tabTrue } from '../../../../modules/appState';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 const profileScreen = ({ navigation, route }) => {
     const [refreshing, setRefreshing] = useState(false);
 
     const handleLogout = e => {
-		e.preventDefault();
+        e.preventDefault();
         dispatch(logout());
     };
-	
-	const handleMax = e => {
-		e.preventDefault();
-		dispatch(tabToggle());
-		navigation.navigate('CheckMax');
-		dispatch(resetMax());
-	}
-	
-	const handleWeek = e => {
-		e.preventDefault();
-		dispatch(getWeeks());
-		dispatch(tabToggle());
-        navigation.navigate('ChangeWeek');
-	}
-	
-    let dispatch = useDispatch();
-    let { user } = useSelector(state => ({
-        user: state.userState.user.user
-    }), shallowEqual);
-    let state = user.state;
-	
-	useEffect(() => {
-		console.log("%c PROFILE_USER_STATE", 'background: black; color: white');
-		console.table(user.state)
-	});
-	
 
-	
+    const handleProgram = e => {
+        e.preventDefault();
+        dispatch(tabToggle());
+        navigation.navigate('ChooseProgram');
+    };
+
+    const handleMax = e => {
+        e.preventDefault();
+        dispatch(tabToggle());
+        navigation.navigate('CheckMax');
+        dispatch(resetMax());
+    };
+
+    const handleWeek = e => {
+        e.preventDefault();
+        dispatch(getWeeks());
+        dispatch(tabToggle());
+        navigation.navigate('ChangeWeek');
+    };
+
+    let dispatch = useDispatch();
+    let { user } = useSelector(
+        state => ({
+            user: state.userState.user.user
+        }),
+        shallowEqual
+    );
+    let state = user.state;
+
+    useEffect(() => {
+        console.log('%c PROFILE_USER_STATE', 'background: black; color: white');
+        console.table(user.state);
+    });
+
     return (
         <SafeAreaView style={GlobalStyles.container}>
-            <View style={styles.profile_block}>
-                <View style={styles.toRow}>
-                    <View>
-                        <Text style={GlobalStyles.home_state}>Current Program:</Text>
-                        <Text style={GlobalStyles.title}>
-                            {state ? state.program : 'Choose Program'}
-                        </Text>
+            <ScrollView style={{ flex: 1 }}>
+                <View style={styles.profile_block}>
+                    <View style={styles.toRow}>
+                        <View>
+                            <Text style={GlobalStyles.home_state}>Current Program:</Text>
+                            <Text style={GlobalStyles.title}>
+                                {state ? state.program : 'Choose Program'}
+                            </Text>
+                        </View>
+                        <SimpleLineIcons name="settings" size={30} onPress={handleProgram} />
                     </View>
-                    <SimpleLineIcons
-                        name="settings"
-                        size={30}
-                        onPress={handleWeek}
-                    />
                 </View>
-            </View>
-            <Divider />
-            <View style={styles.profile_block}>
-                <View style={styles.toRow}>
-                    <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20 }}>
-                        Your Full Pullups:
-                    </Text>
-                    <Text
-                        style={{
-                            ...GlobalStyles.title,
-                            fontSize: 90,
-                            marginLeft: '20%',
-                            lineHeight: 100
-                        }}
-                    >
-                        {state ? state.maxPullups : 0}
-                    </Text>
-                    <SimpleLineIcons
-                        name="settings"
-                        size={30}
-                        onPress={handleMax}
-                    />
+                <Divider />
+                <View style={styles.profile_block}>
+                    <View style={styles.toRow}>
+                        <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20, width: 125 }}>
+                            Current Week:
+                        </Text>
+                        <Text
+                            style={{
+                                ...GlobalStyles.title,
+                                fontSize: 90,
+                                marginLeft: '15%',
+                                lineHeight: 100
+                            }}
+                        >
+                            {state ? state.week : 0}
+                        </Text>
+                        <SimpleLineIcons name="settings" size={30} onPress={handleWeek} />
+                    </View>
                 </View>
-            </View>
-            <Divider />
-            <View style={styles.profile_block}>
-                <View style={styles.toRow}>
-                    <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20 }}>
-                        Total Pullup Counts:
-                    </Text>
-                    <Text
-                        style={{
-                            ...GlobalStyles.title,
-                            fontSize: 90,
-                            marginLeft: '15%',
-                            lineHeight: 100
-                        }}
-                    >
-                        {state ? state.totalPullups : 0}
-                    </Text>
-                    <SimpleLineIcons name="settings" size={30} />
+                <Divider />
+                <View style={styles.profile_block}>
+                    <View style={styles.toRow}>
+                        <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20, width: 125 }}>
+                            Your Full Pullups:
+                        </Text>
+                        <Text
+                            style={{
+                                ...GlobalStyles.title,
+                                fontSize: 90,
+                                marginLeft: '15%',
+                                lineHeight: 100
+                            }}
+                        >
+                            {state ? state.maxPullups : 0}
+                        </Text>
+                        <SimpleLineIcons name="settings" size={30} onPress={handleMax} />
+                    </View>
                 </View>
-            </View>
-            <Divider />
-			<View style = {{flex: 1, alignItems: 'center',justifyContent: 'center'}}>
-				<RegisterButton text="logout" onPress={handleLogout} />
-			</View>
-            
+                <Divider />
+                <View style={styles.profile_block}>
+                    <View style={styles.toRow}>
+                        <Text style={{ ...GlobalStyles.home_state, fontSize: 20, lineHeight: 20, width: 125 }}>
+                            Total Pullup Counts:
+                        </Text>
+                        <Text
+                            style={{
+                                ...GlobalStyles.title,
+                                fontSize: 90,
+                                marginLeft: '15%',
+                                lineHeight: 100
+                            }}
+                        >
+                            {state ? state.totalPullups : 0}
+                        </Text>
+						<View style={{width: 30}}>
+						</View>
+                    </View>
+                </View>
+                <Divider />
+                <View
+                    style={{ alignItems: 'center', justifyContent: 'center', height: 100 }}
+                >
+                    <RegisterButton text="logout" onPress={handleLogout} />
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -127,6 +149,11 @@ const styles = StyleSheet.create({
     toRow: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    weekNumber: {
+        fontFamily: 'Jockey-One',
+        color: '#333333',
+        fontSize: 50
     }
 });
 

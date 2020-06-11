@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
+	SafeAreaView,
     StyleSheet,
     TextInput,
     View,
@@ -45,10 +46,10 @@ export const LoginForm = ({ openModal }) => {
         );
     }, [email, password]);
 
-    const onSubmit = e => {
+    const onSubmit = useCallback(e => {
         e.preventDefault();
         dispatch(logIn({ email, password }));
-    };
+    }, [email, password]);
 
 	useEffect( () => {
 		dispatch(initializeForm('login'));
@@ -70,18 +71,20 @@ export const LoginForm = ({ openModal }) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View>
-                <Text style={styles.title}>GRIP</Text>
-                <Text
-                    style={{
-                        ...GlobalStyles.home_state,
-                        bottom: 25,
-                        textAlign: 'center',
-                        letterSpacing: 5
-                    }}
-                >
-                    Pull yourself against gravity
-                </Text>
+            <SafeAreaView style={{flex: 1, justifyContent: 'space-around', marginTop: '30%'}}>
+				<View>
+					<Text style={styles.title}>GRIP</Text>
+					<Text
+						style={{
+							...GlobalStyles.home_state,
+							bottom: 25,
+							textAlign: 'center',
+							letterSpacing: 5
+						}}
+					>
+						Pull yourself against gravity
+					</Text>
+				</View>
                 <View style={styles.form}>
                     <View>
                         <View style={styles.inputs}>
@@ -119,7 +122,7 @@ export const LoginForm = ({ openModal }) => {
                         </View>
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         </TouchableWithoutFeedback>
     );
 };
@@ -130,13 +133,13 @@ const styles = StyleSheet.create({
         fontSize: 130,
         color: '#333333',
         textAlign: 'center',
-        marginTop: '25%',
+        // marginTop: '25%',
         fontFamily: 'Jockey-One',
-        lineHeight: 160
+        lineHeight: 140
     },
     form: {
-        flex: 1,
-        marginTop: '15%',
+        // flex: 1,
+        // marginTop: '15%',
         marginHorizontal: 15
         // justifyContent: 'center'
     },

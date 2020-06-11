@@ -18,19 +18,19 @@ export const GlobalStyles = {
 		marginHorizontal: '5%',
 		paddingVertical: '5%',
 		alignItems: 'center',
-		// borderBottomWidth: 1,
-		// borderBottomColor: 'rgba(51, 51, 51, 0.75)'
 	},
 	body_Container: {
-		flex: 5,
+		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
 	home_description: {
+		// flex: 1,
         fontSize: 15,
         color: '#333333',
         fontFamily: 'Jockey-One',
         textAlign: 'center',
+		// justifyContent: 'center',
         backgroundColor: 'rgba(128, 128, 128, 0.6);',
         borderRadius: 25,
         marginHorizontal: '15%',

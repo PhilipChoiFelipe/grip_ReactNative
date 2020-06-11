@@ -6,15 +6,15 @@ import { Ionicons } from '@expo/vector-icons';
 
 export const HeaderStyle = {
     headerStyle: { height: 75, backgroundColor: '#B3B3B3' },
-    headerRight: () => (
-        <Avatar
-            rounded
-            title="MS"
-            size={35}
-            titleStyle={{ fontSize: 15 }}
-            overlayContainerStyle={{ backgroundColor: '#4D3636' }}
-        />
-    ),
+    // headerRight: () => (
+    //     <Avatar
+    //         rounded
+    //         title="MS"
+    //         size={35}
+    //         titleStyle={{ fontSize: 15 }}
+    //         overlayContainerStyle={{ backgroundColor: '#4D3636' }}
+    //     />
+    // ),
 	headerBackImage: () => (
 		<BackButton/>
 	),

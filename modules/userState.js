@@ -54,7 +54,7 @@ export const getWeeks = createAction(WEEKS);
 
 export const selectWeek = createAction(SELECT_WEEK, ({ selectedWeek }) => ({ selectedWeek }));
 
-export const nextWeek = createAction(NEXT_WEEK, ({ nextWeek }) => ({ nextWeek }));
+export const nextWeek = createAction(NEXT_WEEK, ({ nextWeek, pullupCount }) => ({ nextWeek, pullupCount }));
 
 //saga
 const checkSaga = createRequestSaga(CHECK, stateAPI.check);

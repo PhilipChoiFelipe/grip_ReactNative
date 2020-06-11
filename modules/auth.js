@@ -97,7 +97,7 @@ const auth = handleActions(
 			...state,
 			auth: {
 				...state.auth,
-				auth: true,
+				// auth: true,
 				authError: null
 			}
 		}),
@@ -105,7 +105,7 @@ const auth = handleActions(
 			...state,
 			auth: {
 				...state.auth,	
-				auth: false,
+				// auth: false,
 				authError: error
 			}
 		}),

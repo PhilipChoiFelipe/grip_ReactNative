@@ -33,7 +33,6 @@ import { getReflections } from '../../../../modules/reflection';
 
 export const RecordScreen = ({ navigation }) => {
     //to refresh flatList
-
     const dispatch = useDispatch();
     const { reflections } = useSelector(
         state => ({
@@ -56,6 +55,12 @@ export const RecordScreen = ({ navigation }) => {
         setSelectedReflection(selected);
     };
 
+	//handle scroll of scrollview when user swipe to delete
+	const [scroll, setScroll] = useState(true);
+	const handleScroll = () => {
+		setScroll(!scroll);
+	}
+	
     //Update state after deleting one reflection.
     const handleDelete = finishedDate => {
         console.log('HELLO!!');
@@ -68,6 +73,7 @@ export const RecordScreen = ({ navigation }) => {
         setSelectedReflection(selected);
     };
 
+	
     useEffect(
         () => {
             console.log('%c CALENDAR:', 'background: black; color: white');
@@ -97,6 +103,7 @@ export const RecordScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{ ...GlobalStyles.container, justifyContent: 'flex-start' }}>
             <FlatList
+				scrollEnabled={scroll}
                 style={{ flex: 1, marginHorizontal: '2%' }}
                 refreshing={refreshing}
                 onRefresh={onRefresh}
@@ -114,7 +121,7 @@ export const RecordScreen = ({ navigation }) => {
                 keyExtractor={(item, index) => index + ''}
                 renderItem={({ item, index }) => {
                     return (
-						<RecordItem item={item} index={index} handleDelete={handleDelete} navigation={navigation}/>
+						<RecordItem item={item} index={index} handleDelete={handleDelete} navigation={navigation} handleScroll={handleScroll}/>
                        
                     );
                 }}

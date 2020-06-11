@@ -18,7 +18,9 @@ export const DoneScreen = ({ navigation }) => {
             <View style={GlobalStyles.body_Container}>
                 <Text style={GlobalStyles.title}>WELL DONE!!</Text>
             </View>
-            <GoButton text="DONE" onPress={handleNavigation} style={{ margin: '10%' }}/>
+			<View style={{height: 150}}>
+            	<GoButton text="DONE" onPress={handleNavigation} style={{ top: 40 }}/>
+			</View>
         </SafeAreaView>
     );
 };

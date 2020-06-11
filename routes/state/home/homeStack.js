@@ -2,7 +2,8 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 //Screens
-import { HomeTab } from './homeTab';
+// import { HomeTab } from './homeTab';
+import { HomeScreen } from '../../../screens/app/state/home/homeScreen';
 import { GraphScreen } from '../../../screens/app/state/exercise/graphScreen';
 import { RestScreen } from '../../../screens/app/state/exercise/restScreen';
 import { SetScreen } from '../../../screens/app/state/exercise/setScreen';
@@ -27,16 +28,17 @@ export const HomeStack = ({ navigation }) => {
     let colorLength = BackgroundColors.length;
     let backgroundColor = BackgroundColors[Math.floor(Math.random() * (colorLength - 1))];
     let dispatch = useDispatch();
-    const { user, program } = useSelector(
+    const { user, program, currentSet } = useSelector(
         state => ({
             user: state.userState.user.user,
-            program: state.userState.program.program
+            program: state.userState.program.program,
+			currentSet: state.appState.currentSet
         }),
         shallowEqual
     );
     const handleExit = () => {
         dispatch(tabToggle());
-        navigation.navigate('HomeTab');
+        navigation.navigate('HomeScreen');
     };
     const openDrawer = () => {
         dispatch(drawerToggle());
@@ -44,8 +46,8 @@ export const HomeStack = ({ navigation }) => {
     return (
         <Stack.Navigator>	
             <Stack.Screen
-                name="HomeTab"
-                component={HomeTab}
+                name="HomeScreen"
+                component={HomeScreen}
                 options={{
                     headerTitle: props => (
                         <CustomHeader
@@ -81,8 +83,7 @@ export const HomeStack = ({ navigation }) => {
                 component={SetScreen}
                 initialParams={{ program }}
                 options={{
-                    headerTitle: props => <ExerciseHeader {...props} title="GRIP AND PULL" />,
-
+                    headerTitle: props => <ExerciseHeader {...props} title={program.set[currentSet].exercise} />,
                     headerLeft: null,
                     gestureEnabled: false,
                     ...HeaderStyle,

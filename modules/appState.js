@@ -6,6 +6,8 @@ const SET_INCREASE = 'appState/SET_INCREASE';
 const SET_RESET = 'appState/SET_RESET';
 const SET_SET = 'appState/SET_SET';
 const TAB = 'appState/TAB';
+const TAB_FALSE = 'appState/TAB_FALSE';
+const TAB_TRUE = 'appState/TAB_TRUE';
 const DRAWER = 'appState/DRAWER';
 const DRAWER_CLOSE = 'appState/DRAWER_CLOSE';
 
@@ -13,6 +15,8 @@ export const setIncrease = createAction(SET_INCREASE);
 export const setReset = createAction(SET_RESET);
 export const setSet = createAction(SET_SET, number => number);
 export const tabToggle = createAction(TAB);
+export const tabFalse = createAction(TAB_FALSE);
+export const tabTrue = createAction(TAB_TRUE);
 export const drawerToggle = createAction(DRAWER);
 export const drawerClose = createAction(DRAWER_CLOSE);
 
@@ -44,6 +48,20 @@ const appState = handleActions(
             toggle: {
                 ...state.toggle,
                 showTab: !state.toggle.showTab
+            }
+        }),
+		[TAB_FALSE]: (state, action) => ({
+            ...state,
+            toggle: {
+                ...state.toggle,
+                showTab: false
+            }
+        }),
+		[TAB_TRUE]: (state, action) => ({
+            ...state,
+            toggle: {
+                ...state.toggle,
+                showTab: true
             }
         }),
         [DRAWER]: (state, action) => ({

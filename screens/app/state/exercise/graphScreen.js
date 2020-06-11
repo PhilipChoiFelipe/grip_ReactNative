@@ -18,10 +18,11 @@ import { tabToggle } from '../../../../modules/appState';
 export const GraphScreen = ({ navigation, route }) => {
     let dispatch = useDispatch();
 
-    const { user, reflections } = useSelector(
+    const { user, reflections, program } = useSelector(
         state => ({
             user: state.userState.user.user,
-            reflections: state.reflection.reflections
+            reflections: state.reflection.reflections,
+			program: state.userState.program.program
         }),
         shallowEqual
     );
@@ -41,7 +42,7 @@ export const GraphScreen = ({ navigation, route }) => {
                     text: 'Stay',
                     onPress: () => {
                         moveupWeek = false;
-						dispatch(nextWeek({nextWeek: moveupWeek}))
+						dispatch(nextWeek({nextWeek: moveupWeek, pullupCount: program.pullupCount}))
                     },
                     style: 'cancel'
                 },
@@ -49,7 +50,7 @@ export const GraphScreen = ({ navigation, route }) => {
                     text: 'Move Up',
                     onPress: () => {
                         moveupWeek = true;
-						dispatch(nextWeek({nextWeek: moveupWeek}))
+						dispatch(nextWeek({nextWeek: moveupWeek, pullupCount: program.pullupCount}))
                     }
                 }
             ],
@@ -61,10 +62,10 @@ export const GraphScreen = ({ navigation, route }) => {
 		if (user.state.day + 1 > 5) {
 			createAlert();
         }else{
-			dispatch(nextWeek({nextWeek: moveupWeek}))
+			dispatch(nextWeek({nextWeek: moveupWeek, pullupCount: program.pullupCount}))
 		}
         dispatch(tabToggle());
-        navigation.navigate('HomeTab');
+        navigation.navigate('HomeScreen');
     };
 	
 	
@@ -146,7 +147,7 @@ export const GraphScreen = ({ navigation, route }) => {
                     </View>
                 </View>
             </View>
-            <GoButton text="HOME" onPress={handleComplete} style={{ margin: '5%' }} />
+            <GoButton text="HOME" onPress={handleComplete} style={{ marginTop: '5%' }} />
         </SafeAreaView>
     );
 };

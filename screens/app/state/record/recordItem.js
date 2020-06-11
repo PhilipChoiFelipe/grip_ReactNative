@@ -13,7 +13,7 @@ import { deleteReflection } from '../../../../modules/reflection';
 import { tabToggle } from '../../../../modules/appState';
 
 
-export const RecordItem = ({ item, index, handleDelete, navigation }) => {
+export const RecordItem = ({ item, index, handleDelete, navigation, handleScroll }) => {
 	const dispatch = useDispatch();
 	
 	    //move to clicked reflection screen
@@ -47,7 +47,9 @@ export const RecordItem = ({ item, index, handleDelete, navigation }) => {
             right={swipeoutBtns}
             autoClose={true}
             style={flatStyles.blocks}
-            onOpen={() => setSwipedReflection(item)}
+            onOpen={() => {setSwipedReflection(item)
+						  handleScroll()}}
+			onClose={handleScroll}
         >
             <TouchableOpacity
                 key={index}
@@ -62,7 +64,7 @@ export const RecordItem = ({ item, index, handleDelete, navigation }) => {
                         <Text style={flatStyles.date}>{item.formattedDate}</Text>
                     </View>
                     <View>
-                        <Text style={flatStyles.pullCounts}>50 PULLS</Text>
+                        <Text style={flatStyles.pullCounts}>{item.pullupCount} PULLS</Text>
                     </View>
                 </View>
             </TouchableOpacity>

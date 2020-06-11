@@ -3,7 +3,6 @@ import { SafeAreaView, Text, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { GlobalStyles } from '../../../../style/globalStyle';
 
-import { LoadingScreen } from '../loading';
 //redux
 import { useSelector, shallowEqual } from 'react-redux';
 
@@ -14,29 +13,20 @@ const exercises = [
     }
 ];
 
-export const TrainingSet = () => {
-    const { program, loading } = useSelector(
-        state => ({
-            program: state.userState.program.program,
-            loading: state.loading['userState/PROGRAM']
-        }),
-        shallowEqual
-    );
-    if (loading) {
-        return <LoadingScreen />;
-    } else {
+export const TrainingSet = ({ program }) => {
+    // const { program, loading } = useSelector(
+    //     state => ({
+    //         program: state.userState.program.program,
+    //         loading: state.loading['userState/PROGRAM']
+    //     }),
+    //     shallowEqual
+    // );
+    // if (loading) {
+    //     return <LoadingScreen />;
 		console.log('%c TRAINING_SET', 'background: black; color: white');
 		console.table(program.set);
         return (
-            <SafeAreaView style={GlobalStyles.container}>
                 <View
-                    style={{
-                        ...GlobalStyles.body_container,
-                        flex: 4,
-                        marginTop: '10%',
-                        marginHorizontal: '5%'
-                    }}
-                    hide
                 >
                     <Text style={GlobalStyles.home_description}>Today's Set</Text>
                     <Text style={{ ...GlobalStyles.home_description, backgroundColor: '#E6E6E6' }}>
@@ -57,9 +47,7 @@ export const TrainingSet = () => {
                         />
                     ))}
                 </View>
-            </SafeAreaView>
         );
     }
-};
 
 // export const TrainingSet = React.memo(trainingSet);

@@ -13,7 +13,7 @@ import { setSet, setReset, drawerClose, tabToggle } from '../../../../modules/ap
 export const ExerciseDrawer = ({ program, navigation }) => {
     let dispatch = useDispatch();
     const handleNavToHome = () => {
-        navigation.navigate('HomeTab');
+        navigation.navigate('HomeScreen');
         dispatch(tabToggle());
 		dispatch(drawerClose());
 		dispatch(setReset());

@@ -25,7 +25,7 @@ export const MemoScreen = ({ toggleModal }) => {
             <View style={styles.body_Container}>
                 <TextInput placeholder="write here" />
             </View>
-            <GoButton text="SAVE" onPress={toggleModal} />
+            <GoButton text="SAVE" onPress={toggleModal}/>
         </View>
     );
 };

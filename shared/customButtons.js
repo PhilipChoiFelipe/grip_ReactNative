@@ -3,15 +3,13 @@ import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
 export const GoButton = ({ text, onPress, style, visible }) => {
     return (
-        <View style={ style }>
-            <View style={gostyles.goButton}>
-                <TouchableOpacity onPress={onPress}>
+            <View style={{...gostyles.goButton, ...style}}>
+                <TouchableOpacity onPress={onPress} style={{backgroundColor: 'rgba(0,0,0,0.0)'}}>
                     <View style={gostyles.button}>
                         <Text style={gostyles.buttonText}>{text}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
-        </View>
     );
 };
 
@@ -27,13 +25,13 @@ const gostyles = StyleSheet.create({
         fontFamily: 'Jockey-One',
         color: '#FFFFFF',
         fontSize: 30,
-        // alignSelf: 'center',
         textAlign: 'center'
     },
     goButton: {
         // flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+		backgroundColor: 'rgba(0,0,0,0.0)'
     }
 });
 

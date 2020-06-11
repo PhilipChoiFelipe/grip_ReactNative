@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import {
+    SafeAreaView,
+    StyleSheet,
+    View,
+    Text,
+    FlatList,
+    TouchableOpacity,
+    Alert
+} from 'react-native';
 
 //design
 import { GoButton } from '../../../../shared/customButtons';
@@ -18,16 +26,17 @@ const color = {
 
 //redux
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { chooseProgram } from '../../../../modules/userState';
-import { tabToggle } from '../../../../modules/appState';
+import { chooseProgram, updateMax } from '../../../../modules/userState';
+import { tabTrue } from '../../../../modules/appState';
 
 export const ChooseProgram = ({ navigation }) => {
     const dispatch = useDispatch();
-    const { chooseError, programs, stay } = useSelector(
+    const { chooseError, programs, stay, updateMaxError, user } = useSelector(
         ({ userState }) => ({
             chooseError: userState.chooseProgram.chooseError,
             programs: userState.updateMax.programs,
-            stay: userState.updateMax.stay
+            stay: userState.updateMax.stay,
+            user: userState.user.user
         }),
         shallowEqual
     );
@@ -36,28 +45,53 @@ export const ChooseProgram = ({ navigation }) => {
     console.log('%c PROGRAM_NAMES', 'background: black; color: white');
     console.table(programs);
 
-	//handle http error
-	useEffect(() => {
-		if(chooseError){
-			console.log('%c CHOOSE_PROGRAM_ERROR:', 'background: red; color: white', chooseError);
-		}
-	}, [chooseError])
-	
+    useEffect(
+        () => {
+            if (!programs) {
+                dispatch(updateMax({ maxPullups: user.state.maxPullups }));
+            }
+        },
+        [dispatch, programs]
+    );
+
+    //handle http error
+    useEffect(
+        () => {
+            if (chooseError) {
+                console.log(
+                    '%c CHOOSE_PROGRAM_ERROR:',
+                    'background: red; color: white',
+                    chooseError
+                );
+            }
+            if (updateMaxError) {
+                console.log(
+                    '%c UPDATE_MAX_ERROR:',
+                    'background: red; color: white',
+                    updateMaxError
+                );
+            }
+        },
+        [chooseError, updateMaxError]
+    );
+
     const handleSubmit = e => {
         e.preventDefault();
         if (!program) {
             CreateAlert('Choose Program!', '');
+        } else if (program == user.state.program) {
+            CreateAlert('You are currently on this program!!');
         } else {
             console.log('%c CHOSEN_PROGRAM', 'background: black; color: white', program);
             dispatch(chooseProgram({ programName: program, stay }));
-			dispatch(tabToggle());
+            dispatch(tabTrue());
             navigation.navigate('ProfileScreen');
         }
     };
 
     return (
         <SafeAreaView style={GlobalStyles.container}>
-            <View style={GlobalStyles.body_Container}>
+            <View style={{ flex: 1 }}>
                 <FlatList
                     keyExtractor={item => item.name}
                     extraData={program}
@@ -100,15 +134,17 @@ export const ChooseProgram = ({ navigation }) => {
                         );
                     }}
                 />
+                <Divider
+                    style={{
+                        // marginTop: 5,
+                        marginBottom: 20,
+                        backgroundColor: 'rgba(51, 51, 51, 0.75)',
+                        marginHorizontal: '5%'
+                    }}
+                />
             </View>
-            <Divider
-                style={{
-                    marginTop: 5,
-                    backgroundColor: 'rgba(51, 51, 51, 0.75)',
-                    marginHorizontal: '5%'
-                }}
-            />
-            <GoButton text="Go" onPress={handleSubmit} style={{ marginVertical: '5%' }} />
+
+            <GoButton text="Go" onPress={handleSubmit} style={{ bottom: 10 }} />
         </SafeAreaView>
     );
 };

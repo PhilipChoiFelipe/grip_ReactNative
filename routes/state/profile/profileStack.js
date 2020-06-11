@@ -15,7 +15,7 @@ import { ChangeWeek } from '../../../screens/app/state/profile/changeWeek/change
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
-import { tabToggle } from '../../../modules/appState';
+import { tabTrue } from '../../../modules/appState';
 
 const Stack = createStackNavigator();
 
@@ -48,7 +48,7 @@ export const ProfileStack = ({ navigation }) => {
                             size={35}
                             color="#333333"
                             onPress={() => {
-                                dispatch(tabToggle());
+                                dispatch(tabTrue());
                                 navigation.navigate('ProfileScreen');
                             }}
                         />
@@ -61,7 +61,18 @@ export const ProfileStack = ({ navigation }) => {
                 initialParams={{ user }}
                 options={{
                     headerTitle: props => <CustomHeader {...props} title="Choose Program" />,
-                    ...HeaderStyle
+                    ...HeaderStyle,
+					headerLeft: () => (
+                        <Ionicons
+                            name="md-arrow-back"
+                            size={35}
+                            color="#333333"
+                            onPress={() => {
+                                dispatch(tabTrue());
+                                navigation.navigate('ProfileScreen');
+                            }}
+                        />
+                    )
                 }}
             />
             <Stack.Screen
@@ -76,7 +87,7 @@ export const ProfileStack = ({ navigation }) => {
                             size={35}
                             color="#333333"
                             onPress={() => {
-                                dispatch(tabToggle());
+                                dispatch(tabTrue());
                                 navigation.navigate('ProfileScreen');
                             }}
                         />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 //design
 import {
@@ -11,11 +11,10 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from 'react-native';
-import { Divider } from 'react-native-elements';
 import { GlobalStyles } from '../../../../style/globalStyle';
 import { SummaryStyles } from '../../../../style/summaryStyle';
-import { BackgroundColors } from '../../../../assets/colors/backgroundColors';
 import { DifficultyRadio } from '../../../../shared/difficultyRadio';
+import { GoButton } from '../../../../shared/customButtons';
 import { FontAwesome } from '@expo/vector-icons';
 
 //util
@@ -24,19 +23,53 @@ const _ = require('lodash');
 import { objToArray } from '../../../../lib/objToArray';
 
 //redux
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { getReflections } from '../../../../modules/reflection';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import {
+    getReflections,
+    changeField,
+    editTrue,
+    editFalse,
+    editReflection
+} from '../../../../modules/reflection';
+import { tabToggle } from '../../../../modules/appState';
 
 export const ReflectionScreen = ({ route, navigation }) => {
-    const { reflection } = route.params;
-    console.log('REFLECTION_REFLECTION:', reflection);
+    const dispatch = useDispatch();
 
-    //RADIO BUTTON
-    const [selected, setSelected] = useState(reflection.difficulty);
-    const handleRadio = number => {
-        console.log('%c SELECTED_DIFFICULTY:', 'background: purple; color: white', number);
-        setSelected(number);
+    const { reflection } = route.params;
+
+    const { memo, difficulty, edit } = useSelector(
+        state => ({
+            memo: state.reflection.reflectionElements.memo,
+            difficulty: state.reflection.reflectionElements.difficulty,
+            edit: state.reflection.reflectionElements.edit
+        }),
+        shallowEqual
+    );
+
+    const handleEdittedReflection = e => {
+        e.preventDefault();
+        if (reflection.memo != memo || reflection.difficulty != difficulty) {
+            dispatch(editReflection({ memo, difficulty, date: reflection.finishedDate }));
+        }
+        dispatch(tabToggle());
+        navigation.pop(1);
     };
+
+    const handleMemo = text => {
+        dispatch(changeField({ key: 'memo', value: text }));
+    };
+
+    useEffect(() => {
+        console.log('REFLECTION_REFLECTION:');
+        console.table(reflection);
+        if (reflection.memo != memo) {
+            dispatch(changeField({ key: 'memo', value: reflection.memo }));
+        }
+        if (difficulty != reflection.difficulty) {
+            dispatch(changeField({ key: 'difficulty', value: reflection.difficulty }));
+        }
+    }, []);
 
     return (
         <SafeAreaView style={{ ...GlobalStyles.container, backgroundColor: '#F2F2F2' }}>
@@ -60,7 +93,7 @@ export const ReflectionScreen = ({ route, navigation }) => {
                     <View style={SummaryStyles.body_container}>
                         <View style={styles.block}>
                             <Text style={styles.block_description}>Pullups Done:</Text>
-                            <Text style={styles.pullupCount}>30</Text>
+                            <Text style={styles.pullupCount}>{reflection.pullupCount}</Text>
                         </View>
                         <View style={styles.block}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -73,14 +106,17 @@ export const ReflectionScreen = ({ route, navigation }) => {
                                 placeholder="Hows your pull?"
                                 multiline={true}
                                 style={styles.textInput}
-                                /*onChangeText={onChangeMemo}*/
+                                onChangeText={handleMemo}
                                 defaultValue={reflection.memo}
                             />
                         </View>
-                        <DifficultyRadio
-                            handleRadio={handleRadio}
-                            selected={selected}
-                            defaultNumber={reflection.difficulty}
+                        <DifficultyRadio defaultNumber={reflection.difficulty} />
+                    </View>
+                    <View style={{marginTop: 20}}>
+                        <GoButton
+                            text="Done"
+                            onPress={handleEdittedReflection}
+                            style={{ bottom: 10 }}
                         />
                     </View>
                 </ScrollView>

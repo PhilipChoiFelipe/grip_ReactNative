@@ -79,7 +79,7 @@ const checkMax = ({ navigation, route }) => {
             </View>
             <GoButton
                 text="Go"
-                style={{ marginVertical: '5%' }}
+                style={{ bottom: 10 }}
                 /*onPress={() => {
 					Alert.alert(
 						'Update max pullups',

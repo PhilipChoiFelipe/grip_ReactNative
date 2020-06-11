@@ -9,6 +9,7 @@ import { HeaderStyle, CustomHeader } from '../../../style/headerStyle';
 //redux
 import { useDispatch } from 'react-redux';
 import { tabToggle } from '../../../modules/appState';
+import { editReflection } from '../../../modules/reflection';
 
 //navigation
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,6 +20,7 @@ const Stack = createStackNavigator();
 
 export const RecordStack = ({navigation}) => {
     let dispatch = useDispatch();
+	
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -41,6 +43,7 @@ export const RecordStack = ({navigation}) => {
                             size={35}
                             color="#333333"
                             onPress={() => {
+								// handleEdittedReflection();
                                 dispatch(tabToggle());
 								navigation.navigate('Record');
                             }}

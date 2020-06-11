@@ -11,7 +11,7 @@ import { ExerciseDrawer } from './exerciseDrawer';
 
 //redux
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { drawerClose } from '../../../../modules/appState';
+import { drawerClose, tabFalse } from '../../../../modules/appState';
 
 export const WarmupScreen = ({ navigation, route }) => {
     let dispatch = useDispatch();
@@ -31,6 +31,8 @@ export const WarmupScreen = ({ navigation, route }) => {
 		console.log('%c WARMUP_SCREEN_PROGRAM:', 'background: purple; color: white');
 		console.table(program);
 	}, [program]);
+	
+	
     return (
 		<Drawer
 			type="overlay"
@@ -46,13 +48,16 @@ export const WarmupScreen = ({ navigation, route }) => {
 				<View style={GlobalStyles.body_Container}>
 					<Text style={GlobalStyles.title}>THIS IS WARMUP</Text>
 				</View>
-				<GoButton
-					text="PULL"
-					style={{ margin: '10%' }}
-					onPress={() => {
-						navigation.navigate('SetScreen');
-					}}
-				/>
+				<View style={{height: 150}}>
+					<GoButton
+						text="PULL"
+						style={{ top: 40 }}
+						onPress={() => {
+							navigation.navigate('SetScreen');
+							dispatch(tabFalse());
+						}}
+					/>
+				</View>
 			</SafeAreaView>
 		</Drawer>
     );

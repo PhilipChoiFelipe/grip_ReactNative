@@ -5,13 +5,16 @@ import {
     View,
     Text,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
 } from 'react-native';
 
 //design
 import { RegisterButton } from '../../shared/customButtons';
 import { GlobalStyles } from '../../style/globalStyle';
 import { CustomTextInput } from '../../shared/customTextInput';
+
+//component
+import { CreateAlert } from '../../shared/alert';
 
 //form
 import { Formik } from 'formik';
@@ -45,6 +48,7 @@ export const SignupForm = ({ closeModal }) => {
 
     const onSubmit = e => {
         e.preventDefault();
+		CreateAlert("Verify mail sent to", email);
         console.log(username, email, password);
         dispatch(signUp({ username, email, password }));
     };

@@ -15,14 +15,12 @@ export const AuthForm = ({ navigation }) => {
     };
 
     return (
-        <View style={GlobalStyles.container}>
-			{/*
+        <View style={{...GlobalStyles.container}}>
             <Modal visible={modalOpen} animationType="slide">
                 <View style={styles.modalContent}>
                     <SignupForm closeModal={closeModal} />
                 </View>
             </Modal>
-			*/}
             <LoginForm openModal={openModal} />
         </View>
     );
