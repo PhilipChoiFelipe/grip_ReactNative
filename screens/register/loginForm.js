@@ -113,9 +113,9 @@ export const LoginForm = ({ openModal }) => {
                         </View>
                         <View style={styles.buttons}>
                             <View style={styles.registration}>
-                                <GoogleButton>
+                                {/* <GoogleButton>
                                     <AntDesign name="google" size={35} color="white" />
-                                </GoogleButton>
+                                </GoogleButton> */}
                                 <RegisterButton text="LogIn" onPress={onSubmit} />
                                 <RegisterButton text="SignUp" onPress={openModal} />
                             </View>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     },
     registration: {
         marginTop: 10,
-        marginHorizontal: '5%',
+        marginHorizontal: '10%',
         flexDirection: 'row',
         justifyContent: 'space-around'
     }

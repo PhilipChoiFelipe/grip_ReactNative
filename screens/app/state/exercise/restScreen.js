@@ -2,33 +2,34 @@ import React, { useEffect, useState } from 'react';
 
 //design
 import { SafeAreaView, Text, View, StyleSheet, Dimensions, Vibration } from 'react-native';
-import { GlobalStyles } from '../../../../style/globalStyle';
+// import { GlobalStyles } from '../../../../style/globalStyle';
 import { GoButton } from '../../../../shared/customButtons';
-import LottieView from 'lottie-react-native';
+// import LottieView from 'lottie-react-native';
 
 //redux
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { tabToggle, drawerClose } from '../../../../modules/appState';
+// import { tabToggle, drawerClose } from '../../../../modules/appState';
 
 //timer
-import { Timer } from 'react-native-stopwatch-timer';
+// import { Timer } from 'react-native-stopwatch-timer';
+import { Timer } from '../../../../lib/timer/react-native-stopwatch-timer';
 
-//util
-import Drawer from 'react-native-drawer';
-import { ExerciseDrawer } from './exerciseDrawer';
+// //util
+// import Drawer from 'react-native-drawer';
+// import { ExerciseDrawer } from './exerciseDrawer';
 
 //Vibration
 const PATTERN = [1000, 1500, 1000];
 
 export const RestScreen = ({ navigation, route }) => {
-    let dispatch = useDispatch();
+    // let dispatch = useDispatch();
     const [start, setStart] = useState(true);
     const [reset, setReset] = useState(false);
     const screenWidth = Math.round(Dimensions.get('window').width);
 
     const handleFinish = (vibrate) => {
 		if(vibrate == true){
-			Vibration.vibrate(PATTERN);
+            Vibration.vibrate(PATTERN);
 		}
         setStart(false);
         setReset(true);
@@ -81,7 +82,7 @@ export const RestScreen = ({ navigation, route }) => {
                                 alignSelf: 'center'
                             }
                         }}
-                        totalDuration={9000}
+                        totalDuration={120000}
                     />
                 }
 				<View style={{height: 150}}>
